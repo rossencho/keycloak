@@ -15,7 +15,7 @@ services:
           - mysql_data:/var/lib/mysql
 
   keycloak_service:
-    image: quay.io/keycloak/keycloak:20.0.3
+    image: quay.io/keycloak/keycloak:21.0.0
     command: start-dev
     environment: 
       DB_ADDR: mysql_service
