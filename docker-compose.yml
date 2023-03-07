@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+
+  mysql_service:
+    image: arm64v8/mysql:8.0.32
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: password
+    ports:
+      - 3307:3306
+    volumes:
+          - mysql_data:/var/lib/mysql
+
+  keycloak_service:
+    image: quay.io/keycloak/keycloak:20.0.3
+    command: start-dev
+    environment: 
+      DB_ADDR: mysql_service
+      DB_PORT: 3307
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_ADMIN: admin 
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - 8080:8080
+
+    depends_on:
+      - mysql_service
+
+volumes:
+  mysql_data:
+    driver: local
